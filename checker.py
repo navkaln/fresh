@@ -23,6 +23,7 @@ def get_fresh_slot(d):
         d.refresh()
         print('refreshed page...let load')
         time.sleep(5)
+        assert d.find_element_by_xpath("//*[contains(text(),'Reserve your time')]")
         unavailable = d.find_elements_by_xpath("//*[contains(text(),'No doorstep delivery windows are available')]")
         open_slots = False if len(unavailable) == 4 else True
 
