@@ -1,12 +1,13 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import time
 import requests
 import json
 from datetime import datetime
 
-LOGIN_URL = ''
-SLACK_HOOK = ''
-CHROME_PATH = ''
+LOGIN_URL = 'https://www.amazon.com/gp/buy/shipoptionselect/handlers/display.html?hasWorkingJavascript=1'
+SLACK_HOOK = 'https://hooks.slack.com/services/.../.../...'
+CHROME_PATH = '/path/to/chromedriver'
 
 
 def login(d):
@@ -16,7 +17,7 @@ def login(d):
     print('30 seconds left'); time.sleep(30)
 
 
-def getFreshSlot(d):
+def get_fresh_slot(d):
     open_slots = False
     while not open_slots:
         d.refresh()
@@ -35,6 +36,7 @@ def getFreshSlot(d):
                     data=json.dumps({'text': msg}),
                     headers={'Content-Type': 'application/json'}
                 )
+                # print(msg)
                 time.sleep(1)
         else:
             msg = '{} no open slots'.format(datetime.now().strftime('%m/%d/%Y, %H:%M:%S'))
@@ -50,4 +52,4 @@ def getFreshSlot(d):
 driver = webdriver.Chrome(executable_path=CHROME_PATH)
 
 login(driver)
-getFreshSlot(driver)
+get_fresh_slot(driver)
